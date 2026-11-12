@@ -1,0 +1,771 @@
+:root {
+  --bg: #161211;
+  --card: #221c1a;
+  --line: #3a312d;
+  --fg: #efe7e1;
+  --dim: #a59a91;
+  --accent: #d0b088;
+  --accent-ink: #1d1714;
+  --pink: #e8a0b4;
+  --ok: #9dd762;
+  --bad: #f6a18b;
+  --radius: 12px;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 16px 64px;
+}
+
+h1 {
+  font-size: 1.9rem;
+  line-height: 1.2;
+  margin: 0 0 12px;
+  color: var(--accent);
+}
+
+h2 {
+  font-size: 1.15rem;
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lead {
+  font-size: 1.05rem;
+  margin: 0 0 8px;
+}
+
+.note,
+.hint {
+  color: var(--dim);
+  font-size: 0.92rem;
+}
+
+a {
+  color: var(--accent);
+}
+
+code {
+  background: #2d2522;
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-size: 0.9em;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.drop {
+  border: 2px dashed var(--line);
+  border-radius: var(--radius);
+  padding: 28px 16px;
+  text-align: center;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.drop.over {
+  border-color: var(--accent);
+  background: #2a221f;
+}
+
+.drop-title {
+  font-size: 1.1rem;
+  margin: 0 0 6px;
+}
+
+.drop-sub {
+  color: var(--dim);
+  font-size: 0.9rem;
+  margin: 0 0 16px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+#game-ready .row,
+#step-done .row {
+  justify-content: flex-start;
+}
+
+.button {
+  display: inline-block;
+  border: 1px solid var(--line);
+  background: #2d2522;
+  color: var(--fg);
+  border-radius: 9px;
+  padding: 9px 16px;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+.button.subtle {
+  background: transparent;
+}
+
+.button.big {
+  width: 100%;
+  padding: 13px 16px;
+  font-size: 1.05rem;
+}
+
+.button.wide {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.consoles {
+  border: 0;
+  margin: 0 0 16px;
+  padding: 0;
+  min-width: 0;
+}
+
+.consoles legend {
+  color: var(--dim);
+  font-size: 0.92rem;
+  padding: 0;
+  margin-bottom: 8px;
+}
+
+.consoles .row {
+  justify-content: flex-start;
+}
+
+.choice {
+  position: relative;
+  border: 1px solid var(--line);
+  background: #2d2522;
+  border-radius: 9px;
+  padding: 8px 18px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.choice input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+.choice:hover {
+  border-color: var(--accent);
+}
+
+.choice:has(input:checked) {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.choice:has(input:focus-visible) {
+  outline: 2px solid var(--pink);
+  outline-offset: 2px;
+}
+
+.choice:has(input:disabled) {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.choice:has(input:disabled):hover {
+  border-color: var(--line);
+}
+
+.choice:has(input:checked:disabled) {
+  opacity: 1;
+}
+
+.ok-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ok);
+  flex: none;
+}
+
+.status {
+  margin-top: 14px;
+}
+
+.bar {
+  height: 8px;
+  background: #2d2522;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.bar > div {
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+  transition: width 0.2s;
+}
+
+.status p {
+  color: var(--dim);
+  font-size: 0.92rem;
+  margin: 8px 0 0;
+}
+
+.error {
+  color: var(--bad);
+  margin: 12px 0 0;
+}
+
+details {
+  margin-top: 12px;
+}
+
+summary {
+  color: var(--dim);
+  cursor: pointer;
+}
+
+pre {
+  background: #1a1513;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px;
+  max-height: 240px;
+  overflow: auto;
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+}
+
+.steps {
+  padding-left: 22px;
+}
+
+.steps li {
+  margin: 6px 0;
+}
+
+footer {
+  margin-top: 32px;
+  color: var(--dim);
+  font-size: 0.85rem;
+}
+
+footer .credit {
+  color: var(--fg);
+}
+
+dialog {
+  background: var(--card);
+  color: var(--fg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  max-width: 480px;
+  width: calc(100% - 32px);
+  padding: 22px;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.65);
+}
+
+dialog .row {
+  justify-content: flex-start;
+}
+
+@media (max-width: 480px) {
+  main {
+    padding-top: 24px;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+}
+
+#toggles {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 60;
+  display: flex;
+  gap: 6px;
+}
+
+#toggles button {
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--fg);
+  background: rgba(18, 12, 11, 0.85);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+#toggles button:hover {
+  border-color: var(--accent);
+}
+
+.sprite {
+  background-repeat: no-repeat;
+}
+
+html.awake {
+  --blood: #d8352a;
+  --ink: #261c17;
+  overflow-x: clip;
+  background: #0b0807;
+}
+
+html.awake body {
+  font-family: "Faustina Game", Georgia, serif;
+  background: radial-gradient(ellipse at 50% 0, #2a1411 0, #120c0b 50%, #0b0807 100%) fixed;
+}
+
+html.awake header {
+  position: relative;
+  text-align: center;
+}
+
+html.awake h1 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+html.awake .lead {
+  font-size: 1.15rem;
+  color: var(--text);
+  text-shadow: 0 0 4px #000, 0 0 12px #000, 0 0 24px #000;
+}
+
+html.awake header code {
+  padding: 0;
+  background: none;
+  font: inherit;
+  color: var(--blood);
+}
+
+html.awake .note {
+  color: color-mix(in srgb, var(--text) 65%, transparent);
+  text-shadow: 0 0 4px #000, 0 0 12px #000;
+}
+
+html.awake h2 {
+  color: var(--text);
+  font-weight: 400;
+  font-size: 1.35rem;
+}
+
+html.awake a {
+  color: var(--text);
+}
+
+html.awake code {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+html.awake .card,
+html.awake dialog,
+.talk-box {
+  border: solid transparent;
+  border-width: 18px 22px;
+  border-image: var(--strip) 18 22 fill / 18px 22px stretch;
+  border-radius: 0;
+  background: none;
+}
+
+html.awake .card {
+  padding: 6px 10px 10px;
+}
+
+html.awake dialog {
+  padding: 8px 12px 12px;
+}
+
+html.awake .button,
+html.awake .choice {
+  font-family: inherit;
+  font-weight: 400;
+  color: var(--text);
+  background: none;
+  border: solid transparent;
+  border-width: 4px 14px 6px;
+  border-image: var(--tape) 4 22 6 fill / 4px 14px 6px stretch;
+  border-radius: 0;
+  padding: 5px 14px;
+}
+
+html.awake .button:hover:not(:disabled),
+html.awake .choice:hover {
+  filter: brightness(1.2);
+}
+
+html.awake .button.primary,
+html.awake .choice:has(input:checked) {
+  border-image-source: var(--tape-on);
+  color: var(--ink);
+}
+
+html.awake .button.subtle {
+  border-image: none;
+  color: color-mix(in srgb, var(--text) 70%, transparent);
+}
+
+html.awake .button.subtle:hover:not(:disabled) {
+  filter: none;
+  color: var(--text);
+  text-decoration: underline;
+}
+
+html.awake .button.big {
+  padding: 8px;
+  font-size: 1.15rem;
+}
+
+html.awake .button:focus-visible,
+html.awake .choice:has(input:focus-visible) {
+  outline: 2px dashed var(--text);
+  outline-offset: 3px;
+}
+
+html.awake .choice:has(input:disabled):hover {
+  filter: none;
+}
+
+html.awake .drop {
+  border-color: color-mix(in srgb, var(--text) 30%, transparent);
+  border-radius: 0;
+}
+
+html.awake .drop.over {
+  border-color: var(--blood);
+  background: rgba(216, 53, 42, 0.1);
+}
+
+html.awake .dot {
+  display: none;
+}
+
+html.awake #toggles {
+  gap: 2px;
+}
+
+html.awake #toggles::before {
+  content: "";
+  width: 26px;
+  height: 26px;
+  align-self: center;
+  background: var(--icon-toggles) center / contain no-repeat;
+}
+
+html.awake #toggles button {
+  font-family: inherit;
+  color: var(--text);
+  background: none;
+  border: 0;
+  padding: 4px 6px;
+  opacity: 0.7;
+}
+
+html.awake #toggles button:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+html.awake footer {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+html.awake footer::before {
+  content: "";
+  flex: none;
+  width: 26px;
+  height: 26px;
+  margin-top: 2px;
+  background: var(--icon-footer) center / contain no-repeat;
+}
+
+html.awake footer p {
+  margin: 0;
+}
+
+html.awake footer p + p {
+  margin-top: 8px;
+}
+
+html.awake footer .credit {
+  color: var(--text);
+}
+
+html.awake .bar {
+  height: 10px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid color-mix(in srgb, var(--text) 25%, transparent);
+}
+
+html.awake .bar > div {
+  background: linear-gradient(90deg, #7a1d17, var(--blood));
+}
+
+.status {
+  position: relative;
+}
+
+html.awake .status:has(.runner) {
+  padding-top: 88px;
+}
+
+.runner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  pointer-events: none;
+}
+
+html.awake .status p {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 34px;
+}
+
+html.awake .status[data-running] p::after {
+  content: "";
+  flex: none;
+  width: 136px;
+  height: 34px;
+  background: var(--loading) center / contain no-repeat;
+  mix-blend-mode: lighten;
+  animation: loading-pulse 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes loading-pulse {
+  from {
+    opacity: 0.4;
+  }
+}
+
+#hero {
+  --hero-w: min(100vw, 1120px);
+  position: relative;
+  width: var(--hero-w);
+  margin: -40px 0 calc(var(--hero-w) * -0.11) calc((100% - var(--hero-w)) / 2);
+}
+
+.hero-art {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 22%, #000 78%, transparent), linear-gradient(to bottom, transparent, #000 12%, #000 48%, transparent 94%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent, #000 22%, #000 78%, transparent), linear-gradient(to bottom, transparent, #000 12%, #000 48%, transparent 94%);
+  mask-composite: intersect;
+}
+
+.hero-who {
+  position: absolute;
+  top: 0;
+  bottom: 18%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.hero-who:focus-visible {
+  outline: 2px dashed var(--text);
+  outline-offset: -8px;
+}
+
+#hero .balloon {
+  position: absolute;
+  transform: translateX(-50%) scale(var(--balloon-scale, 1));
+  transform-origin: 50% 0;
+  pointer-events: none;
+}
+
+.race {
+  position: fixed;
+  inset: auto 0 176px;
+  height: 96px;
+  z-index: 110;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.race .sprite {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.talk {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 16px 16px 28px;
+  font-family: "Faustina Game", Georgia, serif;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.4) 35%, transparent 60%);
+}
+
+.talk-box {
+  position: relative;
+  z-index: 2;
+  width: min(783px, 100%);
+  min-height: 166px;
+  padding: 0 18px 18px;
+  text-align: center;
+  outline: none;
+  font-size: clamp(18px, 3.6vw, 28px);
+  line-height: 1.3;
+}
+
+.talk-name {
+  margin: 0;
+  color: var(--text);
+}
+
+.talk-text {
+  margin: 0;
+  min-height: 2.6em;
+  white-space: pre-line;
+}
+
+.talk-next {
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  width: 24px;
+  height: 24px;
+  margin-left: -12px;
+  background: var(--skin-pause) center / contain no-repeat;
+  animation: talk-blink 1s steps(2, jump-none) infinite;
+}
+
+@keyframes talk-blink {
+  50% {
+    opacity: 0.2;
+  }
+}
+
+.talk-bust {
+  position: fixed;
+  bottom: 0;
+  z-index: 1;
+  height: min(62vh, 540px);
+  pointer-events: none;
+  animation: bust-in 0.22s ease-out;
+}
+
+.talk-bust[data-side="left"] {
+  left: max(0px, calc(50% - 600px));
+}
+
+.talk-bust[data-side="right"] {
+  right: max(0px, calc(50% - 600px));
+}
+
+@keyframes bust-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+@media (max-width: 700px) {
+  .talk-bust {
+    height: 36vh;
+  }
+}
+
+@media (max-width: 480px) {
+  #hero {
+    margin-top: -24px;
+  }
+
+  html.awake .status[data-running] p::after {
+    width: 104px;
+    height: 26px;
+  }
+}
+
+@media (max-width: 1440px) {
+  html.awake #toggles {
+    padding: 2px 6px;
+    background: rgba(11, 8, 7, 0.8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .talk-next,
+  .talk-bust {
+    animation: none;
+  }
+
+  html.awake .status[data-running] p::after {
+    animation: none;
+  }
+}

@@ -1,0 +1,4 @@
+sprite_v sprite_v.cg vp
+color_f color_f.cg fp
+texture_f texture_f.cg fp
+gray_f gray_f.cg fp

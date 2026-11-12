@@ -1,0 +1,77 @@
+Copyright (c) 2026 kotwicha. All rights reserved.
+
+This repository is public so that people can read the source and follow the project. It is not open source.
+
+You may download, build and run this software for your own personal, non-commercial use. No other rights are
+granted. Without prior written permission from the copyright holder you may not copy, modify, merge, publish,
+distribute, sublicense or sell this software or any part of it, and you may not publish or share builds of it,
+modified or not.
+
+These restrictions exist for one reason: to keep the port from being used to pirate the game or to spread malware.
+Repackaged builds or modified copies could ship the game's content to people who don't own it, or hide harmful code
+behind the port's name. Keeping every release in one place lets players trust that what they download is the real,
+clean builder and that it only works with a copy they bought.
+
+GitHub's Terms of Service allow users to view and fork public repositories on GitHub. A fork made that way does not
+receive any of the rights listed above: it may not be modified, redistributed, released or used outside of that
+GitHub feature.
+
+The files the builder produces (EBOOT.PBP, tcoaal.3dsx, tcoaal.cia, TCOAAL.iso, TCOAAL.ELF, TCOAAL.PAK and
+TCOAAL.pkg) contain data from the user's own copy of the game. They are for the personal use of the person who owns
+that copy and may not be shared.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHOR BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR ITS USE.
+
+
+Third-party components
+----------------------
+
+These parts are not covered by the terms above and keep their own licenses:
+
+- tools/builder/third_party/miniz.c, miniz.h: MIT, see tools/builder/third_party/miniz-LICENSE.
+- tools/builder/third_party/stb_image.h, stb_image_write.h, stb_truetype.h, stb_vorbis.c: MIT or public domain, see
+  the end of each file.
+- web/vendor/fflate.js: MIT, see web/vendor/fflate-LICENSE.
+- engine/third_party/tremor: the Tremor Vorbis decoder, BSD, (c) Xiph.Org Foundation, see
+  engine/third_party/tremor/COPYING.
+- engine/third_party/stb_image_write.h: MIT or public domain, see the end of the file.
+- tools/builder/art/psp.svg: based on "PSP 2000 Black" by Todd Partridge (Gen2ly), Openclipart, CC0.
+- .github/controls: the PSP-2000 by Todd Partridge, the 3DS by BHSPitMonkey and the Wii Remote by lexaficus are from
+  Openclipart (CC0); the PS3, GameCube and Xbox 360 controllers are by Grumbel (CC0), and the PS2 controller is
+  adapted from that PS3 drawing. The PS Vita and Wii U GamePad drawings are by Tokyoship on Wikimedia Commons, CC BY
+  3.0 (https://creativecommons.org/licenses/by/3.0/), with the Vita recolored white for the dark theme.
+- The CIA template embedded in the builder is made at build time with makerom (Project_CTR, (c) 3DSGuy, MIT) and
+  bannertool ((c) Steveice10 and carstene1ns, MIT). Neither tool is included in this repository.
+- The PS2 engine is linked with ps2sdk (Academic Free License 2.0, (c) the ps2dev contributors) and embeds its IOP
+  modules iomanX, fileXio, libsd, audsrv, usbd, bdm, bdmfs_fatfs and usbmass_bd. It also links libvorbis and libogg
+  (BSD, (c) Xiph.Org Foundation) and zlib (zlib license, (c) Jean-loup Gailly and Mark Adler) from ps2sdk-ports.
+  None of them are included in this repository; they come with the ps2dev toolchain.
+- The PS3 engine is linked with PSL1GHT (MIT, (c) the PSL1GHT contributors). It also links libvorbis and libogg
+  (BSD, (c) Xiph.Org Foundation) and zlib (zlib license, (c) Jean-loup Gailly and Mark Adler). None of them are
+  included in this repository; scripts/setup-ps3dev.sh downloads and builds them into _deps.
+- The RPG Maker MV runtime logic in engine/src/game is ported from the RPG Maker MV corescript, used under the
+  following license:
+
+    The MIT License (MIT)
+
+    Copyright (c) 2015 KADOKAWA CORPORATION./YOJI OJIMA
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+    documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+    to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all copies or substantial portions
+    of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+    THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+    CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+    IN THE SOFTWARE.
+
+
+The Coffin of Andy and Leyley is (c) Kit9 Studio / Nemlei. No game assets are included in this repository, and this
+project is not affiliated with or endorsed by them.

@@ -1,0 +1,19 @@
+!!ARBvp1.0
+OPTION NV_vertex_program3;
+#var float2 position : $vin.POSITION : POSITION : 0 : 1
+#var float4 color : $vin.COLOR0 : COLOR0 : 1 : 1
+#var float2 texcoord : $vin.TEXCOORD0 : TEXCOORD0 : 2 : 1
+#var float4 xform :  : c[0] : 3 : 1
+#var float4 oPosition : $vout.POSITION : HPOS : 4 : 1
+#var float4 oColor : $vout.COLOR0 : COL0 : 5 : 1
+#var float2 oTexcoord : $vout.TEXCOORD0 : TEX0 : 6 : 1
+#const c[1] = 0 1
+PARAM c[2] = { program.local[0],
+		{ 0, 1 } };
+TEMP RC, HC;
+BB0:
+MOV   result.color, vertex.color;
+MAD   result.position.xy, vertex.position, c[0], c[0].zwzw;
+MOV   result.position.zw, c[1].xyxy;
+MOV   result.texcoord[0].xy, vertex.texcoord[0];
+END

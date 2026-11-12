@@ -1,0 +1,8 @@
+wait 240
+press ok
+wait 300
+press ok
+wait 300
+repeat ok 160 15
+wait 120
+exit

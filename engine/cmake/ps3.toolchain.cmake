@@ -1,0 +1,33 @@
+set(CMAKE_SYSTEM_NAME Generic)
+set(CMAKE_SYSTEM_PROCESSOR ppc64)
+set(PS3 TRUE)
+
+if(NOT DEFINED ENV{PS3DEV})
+  message(FATAL_ERROR "PS3DEV is not set")
+endif()
+set(PS3DEV $ENV{PS3DEV})
+if(DEFINED ENV{PSL1GHT})
+  set(PSL1GHT $ENV{PSL1GHT})
+else()
+  set(PSL1GHT ${PS3DEV})
+endif()
+
+set(CMAKE_C_COMPILER ${PS3DEV}/ppu/bin/ppu-gcc)
+set(CMAKE_CXX_COMPILER ${PS3DEV}/ppu/bin/ppu-g++)
+set(CMAKE_AR ${PS3DEV}/ppu/bin/ppu-ar CACHE FILEPATH "")
+set(CMAKE_RANLIB ${PS3DEV}/ppu/bin/ppu-ranlib CACHE FILEPATH "")
+set(CMAKE_STRIP ${PS3DEV}/ppu/bin/ppu-strip CACHE FILEPATH "")
+
+set(PS3_MACHDEP "-mcpu=cell -mhard-float -fmodulo-sched -ffunction-sections -fdata-sections")
+set(CMAKE_C_FLAGS_INIT "${PS3_MACHDEP}")
+set(CMAKE_CXX_FLAGS_INIT "${PS3_MACHDEP} -D_GLIBCXX11_USE_C99_STDIO -D_GLIBCXX11_USE_C99_STDLIB")
+set(CMAKE_EXE_LINKER_FLAGS_INIT "${PS3_MACHDEP}")
+
+set(CMAKE_FIND_ROOT_PATH ${PS3DEV}/ppu ${PS3DEV}/portlibs/ppu ${PSL1GHT}/ppu)
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+
+include_directories(SYSTEM ${PSL1GHT}/ppu/include ${PSL1GHT}/ppu/include/simdmath ${PS3DEV}/portlibs/ppu/include)
+link_directories(${PSL1GHT}/ppu/lib ${PS3DEV}/portlibs/ppu/lib)

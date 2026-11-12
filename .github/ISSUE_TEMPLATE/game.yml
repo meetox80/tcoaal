@@ -1,0 +1,112 @@
+name: Something's wrong in the game
+description: A crash, a freeze, a missing background, a broken cutscene, missing sound, anything that plays differently from the PC version.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        One problem per issue, please. Don't attach any of the game's files or anything the builder made.
+
+  - type: dropdown
+    id: device
+    attributes:
+      label: Where are you playing?
+      options:
+        - PSP-1000
+        - PSP-2000
+        - PSP-3000
+        - PSP Go
+        - PSP Street (E1000)
+        - PPSSPP
+        - PS Vita or PS TV
+        - Vita3K
+        - 3DS or 2DS
+        - Azahar
+        - Wii, or Wii U in Wii mode
+        - Dolphin
+        - Wii U
+        - Cemu
+        - PS3
+        - RPCS3
+        - PS2
+        - PCSX2
+        - Xbox 360
+    validations:
+      required: true
+
+  - type: input
+    id: firmware
+    attributes:
+      label: Firmware, loader or emulator version
+      placeholder: 6.61 PRO-C2, HENkaku Ensō 3.65, Luma3DS 13.3, Homebrew Channel 1.1.2, Aroma, Evilnat 4.92, OPL 1.2.0, XeLL Reloaded, PPSSPP 1.18.1...
+    validations:
+      required: true
+
+  - type: input
+    id: port
+    attributes:
+      label: Port version
+      description: The line starting with "v" in the top right of the title screen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: plugins
+    attributes:
+      label: Plugins
+      description: PSP and Vita plugins you have turned on (CWCheat, PRXShot, MP3Play and so on). Some of them take memory the game needs.
+
+  - type: dropdown
+    id: builder
+    attributes:
+      label: How did you build it?
+      options:
+        - In the browser (tcoaal.ox80.cc)
+        - Desktop builder
+        - From source
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: And what you expected to happen instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: where
+    attributes:
+      label: Where in the game?
+      description: The episode, the place or cutscene, and what you were doing right before it.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Can you make it happen again?
+      description: The steps, if you know them. A save from right before it helps a lot (the saves folder next to the game, or the TCOAAL folder on the PS2 memory card).
+
+  - type: textarea
+    id: log
+    attributes:
+      label: Log
+      description: Attach log.txt from next to the game (PSP/GAME/TCOAAL, ux0:data/TCOAAL, 3ds/tcoaal, apps/tcoaal, wiiu/apps/tcoaal, /dev_hdd0/game/TCOAAL001/USRDIR, tcoaal on the Xbox 360's USB drive), or paste the end of it here. The PS2 build started from its iso doesn't write one.
+      render: text
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or video
+
+  - type: checkboxes
+    id: copy
+    attributes:
+      label: Your copy
+      options:
+        - label: I built it from my own copy of The Coffin of Andy and Leyley 3.0.12 bought on Steam.
+          required: true
+        - label: I'm not attaching any of the game's files or anything the builder made.
+          required: true

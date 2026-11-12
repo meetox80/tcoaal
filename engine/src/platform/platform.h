@@ -1,0 +1,78 @@
+#pragma once
+#include <cstddef>
+#include <cstdint>
+#include <string>
+
+#include "profile.h"
+
+enum Button : uint32_t {
+    BTN_UP = 1u << 0,
+    BTN_DOWN = 1u << 1,
+    BTN_LEFT = 1u << 2,
+    BTN_RIGHT = 1u << 3,
+    BTN_OK = 1u << 4,
+    BTN_CANCEL = 1u << 5,
+    BTN_MENU = 1u << 6,
+    BTN_DASH = 1u << 7,
+    BTN_PAGEUP = 1u << 8,
+    BTN_PAGEDOWN = 1u << 9,
+    BTN_START = 1u << 10,
+    BTN_SELECT = 1u << 11,
+};
+
+namespace plat {
+
+struct Options {
+    std::string data_root;
+    std::string save_root;
+    int scale = profile::WINDOW_SCALE;
+    bool headless = false;
+    bool fast = false;
+    int max_frames = 0;
+    std::string input_script;
+    std::string shot_prefix;
+    std::string shot_frames;
+    int skip_render_until = 0;
+    bool perf = false;
+    int dump_audio = 0;
+    std::string debug_tint;
+    std::string debug_start;
+    int heap_limit_mb = 0;
+};
+
+bool init(int argc, char** argv);
+int pending_ticks();
+void shutdown();
+bool running();
+void request_exit();
+void poll();
+uint32_t buttons();
+void set_extra_buttons(uint32_t b);
+bool touch(int& x, int& y);
+uint64_t frame_count();
+double time_seconds();
+void frame_end();
+const Options& options();
+const std::string& data_root();
+const std::string& save_root();
+bool make_dir(const std::string& path);
+void log(const char* fmt, ...);
+size_t heap_used();
+size_t heap_limit();
+void io_begin();
+void io_end();
+bool consume_resume();
+bool circle_confirms();
+void set_stick_enabled(bool on);
+bool stick_enabled();
+bool debug_warp(int& map, int& x, int& y, int& d);
+
+struct Mutex;
+using ThreadFn = void (*)();
+bool start_thread(ThreadFn fn);
+Mutex* mutex_create();
+void mutex_lock(Mutex* m);
+void mutex_unlock(Mutex* m);
+void sleep_ms(int ms);
+
+}

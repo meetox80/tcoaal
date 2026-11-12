@@ -1,0 +1,26 @@
+#pragma once
+#include <map>
+
+namespace std {
+
+template <class K>
+const K& __set_key(const K& k) {
+    return k;
+}
+
+template <class K, class Cmp = less<K>>
+class set : public __sorted_nodes<K, K, Cmp, &__set_key<K>> {
+public:
+    using key_type = K;
+    using value_type = K;
+
+    set() = default;
+    set(initializer_list<K> l) {
+        for (const K& k : l) this->emplace(k);
+    }
+};
+
+template <class K, class H = void, class E = void>
+using unordered_set = set<K>;
+
+}

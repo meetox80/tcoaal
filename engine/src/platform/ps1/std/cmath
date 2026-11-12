@@ -1,0 +1,57 @@
+#pragma once
+#include <cstdlib>
+
+#define NAN (__builtin_nan(""))
+#define INFINITY (__builtin_inf())
+#define HUGE_VAL (__builtin_huge_val())
+
+namespace std {
+
+double trunc(double x);
+double floor(double x);
+double ceil(double x);
+double round(double x);
+double fmod(double x, double y);
+double sqrt(double x);
+double exp(double x);
+double log(double x);
+double pow(double x, double y);
+double sin(double x);
+double cos(double x);
+double atan(double x);
+double atan2(double y, double x);
+
+inline long lround(double x) { return static_cast<long>(round(x)); }
+inline double fabs(double x) { return x < 0 ? -x : x; }
+inline double abs(double x) { return x < 0 ? -x : x; }
+inline float abs(float x) { return x < 0 ? -x : x; }
+inline long long abs(long long x) { return x < 0 ? -x : x; }
+inline bool isnan(double x) { return x != x; }
+inline bool isinf(double x) { return x - x != x - x && x == x; }
+inline bool isfinite(double x) { return x - x == x - x; }
+
+inline float trunc(float x) { return static_cast<float>(trunc(static_cast<double>(x))); }
+inline float floor(float x) { return static_cast<float>(floor(static_cast<double>(x))); }
+inline float ceil(float x) { return static_cast<float>(ceil(static_cast<double>(x))); }
+inline float round(float x) { return static_cast<float>(round(static_cast<double>(x))); }
+inline float fmod(float x, float y) { return static_cast<float>(fmod(static_cast<double>(x), static_cast<double>(y))); }
+inline float sqrt(float x) { return static_cast<float>(sqrt(static_cast<double>(x))); }
+inline float pow(float x, float y) { return static_cast<float>(pow(static_cast<double>(x), static_cast<double>(y))); }
+inline float sin(float x) { return static_cast<float>(sin(static_cast<double>(x))); }
+inline float cos(float x) { return static_cast<float>(cos(static_cast<double>(x))); }
+inline float fabs(float x) { return x < 0 ? -x : x; }
+inline long lround(float x) { return lround(static_cast<double>(x)); }
+
+}
+
+using std::ceil;
+using std::cos;
+using std::fabs;
+using std::floor;
+using std::fmod;
+using std::isnan;
+using std::lround;
+using std::pow;
+using std::round;
+using std::sin;
+using std::sqrt;

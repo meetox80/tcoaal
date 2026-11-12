@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coffin of Andy and Leyley for consoles</title>
+<meta name="description" content="Build The Coffin of Andy and Leyley for PSP, PS Vita, 3DS, Wii, Wii U, PS2, PS3 or Xbox 360 from your own copy, right in your browser.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="toggles" hidden>
+  <button id="toggle-sound" type="button" aria-pressed="true">sound on</button>
+  <button id="toggle-music" type="button" aria-pressed="false">music off</button>
+</div>
+<main>
+  <div id="hero" hidden></div>
+  <header>
+    <h1><span data-console="psp">The Coffin of Andy and Leyley for PSP</span><span data-console="vita" hidden>The Coffin of Andy and Leyley for PS Vita</span><span data-console="3ds" hidden>The Coffin of Andy and Leyley for 3DS</span><span data-console="wii" hidden>The Coffin of Andy and Leyley for Wii</span><span data-console="wiiu" hidden>The Coffin of Andy and Leyley for Wii U</span><span data-console="ps2" hidden>The Coffin of Andy and Leyley for PS2</span><span data-console="ps3" hidden>The Coffin of Andy and Leyley for PS3</span><span data-console="xbox360" hidden>The Coffin of Andy and Leyley for Xbox 360</span></h1>
+    <p class="lead" data-console="psp">Turn your copy of the game into a single <code>EBOOT.PBP</code> for a PSP or PPSSPP. Everything happens on this page: your game files never leave your computer.</p>
+    <p class="lead" data-console="vita" hidden>Turn your copy of the game into <code>TCOAAL.vpk</code> and a data folder for a PS Vita. Everything happens on this page: your game files never leave your computer.</p>
+    <p class="lead" data-console="wii" hidden>Turn your copy of the game into an <code>apps</code> folder for the Homebrew Channel on a Wii. Everything happens on this page: your game files never leave your computer.</p>
+    <p class="lead" data-console="wiiu" hidden>Turn your copy of the game into <code>tcoaal.wuhb</code> and its data for a Wii U with Aroma. Everything happens on this page: your game files never leave your computer.</p>
+    <p class="lead" data-console="xbox360" hidden>Turn your copy of the game into <code>xenon.elf</code> and a data folder for an Xbox 360 that boots XeLL. Everything happens on this page: your game files never leave your computer.</p>
+    <p class="lead" data-console="3ds" hidden>Turn your copy of the game into a single <code>tcoaal.3dsx</code> for a 3DS or the Azahar emulator. Everything happens on this page: your game files never leave your computer.</p>
+    <p class="lead" data-console="ps2" hidden>Turn your copy of the game into a single <code>TCOAAL.iso</code> for a PS2 or PCSX2. Everything happens on this page: your game files never leave your computer.</p>
+    <p class="lead" data-console="ps3" hidden>Turn your copy of the game into a single <code>TCOAAL.pkg</code> for a PS3 or RPCS3. Everything happens on this page: your game files never leave your computer.</p>
+    <p class="note" data-console="psp">You need the game (version 3.0.12). It's on <a href="https://store.steampowered.com/app/2378900/" target="_blank" rel="noopener">Steam</a>. And any PSP with custom firmware, or the PPSSPP emulator. On a PSP-1000 the images are kept in 16-bit color to fit its smaller memory.</p>
+    <p class="note" data-console="vita" hidden>You need the game (version 3.0.12). It's on <a href="https://store.steampowered.com/app/2378900/" target="_blank" rel="noopener">Steam</a>. And a PS Vita or PS TV with HENkaku or Ensō and VitaShell.</p>
+    <p class="note" data-console="wii" hidden>You need the game (version 3.0.12). It's on <a href="https://store.steampowered.com/app/2378900/" target="_blank" rel="noopener">Steam</a>. And a Wii with the Homebrew Channel, plus an SD card or USB drive.</p>
+    <p class="note" data-console="wiiu" hidden>You need the game (version 3.0.12). It's on <a href="https://store.steampowered.com/app/2378900/" target="_blank" rel="noopener">Steam</a>. And a Wii U with the Aroma homebrew environment.</p>
+    <p class="note" data-console="xbox360" hidden>You need the game (version 3.0.12). It's on <a href="https://store.steampowered.com/app/2378900/" target="_blank" rel="noopener">Steam</a>. And an Xbox 360 with RGH or JTAG that boots XeLL, plus a USB drive formatted as FAT32.</p>
+    <p class="note" data-console="3ds" hidden>You need the game (version 3.0.12). It's on <a href="https://store.steampowered.com/app/2378900/" target="_blank" rel="noopener">Steam</a>. And a 3DS with custom firmware and the Homebrew Launcher, or the Azahar emulator.</p>
+    <p class="note" data-console="ps2" hidden>You need the game (version 3.0.12). It's on <a href="https://store.steampowered.com/app/2378900/" target="_blank" rel="noopener">Steam</a>. And a PS2 that runs homebrew (Open PS2 Loader, FreeMcBoot or uLaunchELF), or the PCSX2 emulator.</p>
+    <p class="note" data-console="ps3" hidden>You need the game (version 3.0.12). It's on <a href="https://store.steampowered.com/app/2378900/" target="_blank" rel="noopener">Steam</a>. And a PS3 that runs homebrew (PS3HEN or custom firmware), or the RPCS3 emulator.</p>
+  </header>
+
+  <section class="card" id="step-game">
+    <h2>Your game</h2>
+    <div id="game-empty">
+      <div id="drop" class="drop" tabindex="0">
+        <p class="drop-title">Drop your game folder or a .zip here</p>
+        <p class="drop-sub">The folder that has <code>Game.exe</code> and <code>www</code> in it. On Steam: right-click the game, then Manage, then Browse local files.</p>
+        <div class="row">
+          <label class="button primary">Choose folder<input id="pick-folder" type="file" webkitdirectory directory multiple hidden></label>
+          <label class="button">Choose .zip<input id="pick-zip" type="file" accept=".zip,application/zip" hidden></label>
+        </div>
+      </div>
+    </div>
+    <div id="game-ready" hidden>
+      <p class="ok-line"><span class="dot"></span><span id="game-summary"></span></p>
+      <p class="hint">Saved in this browser, so you won't have to pick it again next time.</p>
+      <div class="row">
+        <button id="replace-game" class="button">Use a different copy</button>
+        <button id="remove-game" class="button subtle">Remove from this browser</button>
+      </div>
+    </div>
+    <div id="import-status" class="status" hidden>
+      <div class="bar"><div id="import-bar"></div></div>
+      <p id="import-text"></p>
+    </div>
+    <p id="game-error" class="error" hidden></p>
+  </section>
+
+  <section class="card" id="step-build">
+    <h2>Build</h2>
+    <fieldset class="consoles">
+      <legend>Build it for</legend>
+      <div class="row">
+        <label class="choice">PSP<input type="radio" name="console" value="psp" checked></label>
+        <label class="choice">PS Vita<input type="radio" name="console" value="vita"></label>
+        <label class="choice">3DS<input type="radio" name="console" value="3ds"></label>
+        <label class="choice">Wii<input type="radio" name="console" value="wii"></label>
+        <label class="choice">Wii U<input type="radio" name="console" value="wiiu"></label>
+        <label class="choice">PS2<input type="radio" name="console" value="ps2"></label>
+        <label class="choice">PS3<input type="radio" name="console" value="ps3"></label>
+        <label class="choice">Xbox 360<input type="radio" name="console" value="xbox360"></label>
+      </div>
+    </fieldset>
+    <button id="build" class="button primary big" disabled><span data-console="psp">Build EBOOT.PBP</span><span data-console="vita" hidden>Build TCOAAL.vpk</span><span data-console="3ds" hidden>Build tcoaal.3dsx</span><span data-console="wii" hidden>Build the apps folder</span><span data-console="wiiu" hidden>Build tcoaal.wuhb</span><span data-console="ps2" hidden>Build TCOAAL.iso</span><span data-console="ps3" hidden>Build TCOAAL.pkg</span><span data-console="xbox360" hidden>Build xenon.elf</span></button>
+    <div id="build-status" class="status" hidden>
+      <div class="bar"><div id="build-bar"></div></div>
+      <p id="build-text"></p>
+    </div>
+    <details id="log-box" hidden><summary>Details</summary><pre id="log"></pre></details>
+    <p id="build-error" class="error" hidden></p>
+  </section>
+
+  <section class="card" id="step-done" hidden>
+    <div data-console="psp">
+      <h2>Put it on your PSP</h2>
+      <div class="row">
+        <button id="download-psp-zip" class="button primary">Download PSP folder (.zip)</button>
+        <button id="download-psp-eboot" class="button">Download EBOOT.PBP only</button>
+      </div>
+      <ol class="steps">
+        <li>Unzip it into the root of your memory stick, so you end up with <code>PSP/GAME/TCOAAL/EBOOT.PBP</code>.</li>
+        <li>On the PSP, open Game, then Memory Stick. In PPSSPP, open the EBOOT directly.</li>
+        <li>Saves go into <code>PSP/GAME/TCOAAL/saves</code> and are kept when you update.</li>
+      </ol>
+      <p class="hint">Controls: d-pad to move, cross to interact, circle to cancel, triangle for the menu, square to run, R to fast-forward dialogue.</p>
+    </div>
+    <div data-console="vita" hidden>
+      <h2>Install it on your PS Vita</h2>
+      <div class="row">
+        <button id="download-vita-vpk" class="button primary">Download TCOAAL.vpk</button>
+        <button id="download-vita-data" class="button">Download data folder (.zip)</button>
+      </div>
+      <ol class="steps">
+        <li>Unzip the data folder into <code>ux0:</code> on your Vita, for example over VitaShell's FTP or USB connection, so you end up with <code>ux0:data/TCOAAL/tcoaal.pak</code>.</li>
+        <li>Copy <code>TCOAAL.vpk</code> to the Vita and install it with VitaShell. The game shows up on the home screen.</li>
+        <li>Saves go into <code>ux0:data/TCOAAL/saves</code> and are kept when you update.</li>
+      </ol>
+      <p class="hint">Controls: d-pad or left stick to move, cross to interact, circle to cancel, triangle or start for the menu, hold square to run, hold R to fast-forward dialogue.</p>
+    </div>
+    <div data-console="wii" hidden>
+      <h2>Put it on your SD card</h2>
+      <div class="row">
+        <button id="download-wii-zip" class="button primary">Download apps folder (.zip)</button>
+      </div>
+      <ol class="steps">
+        <li>Unzip it into the root of your SD card or USB drive, so you end up with <code>apps/tcoaal/boot.dol</code> and <code>apps/tcoaal/tcoaal.pak</code>.</li>
+        <li>Start it from the Homebrew Channel.</li>
+        <li>Saves go into <code>apps/tcoaal/saves</code> and are kept when you update.</li>
+      </ol>
+      <p class="hint">Controls: hold the Wii Remote sideways. D-pad to move, 2 to interact, 1 to cancel, + for the menu, hold B to run, hold A to fast-forward dialogue. On a Classic Controller or GameCube controller: d-pad or stick to move, A to interact, B to cancel, X for the menu, hold Y to run, hold R to fast-forward dialogue.</p>
+    </div>
+    <div data-console="wiiu" hidden>
+      <h2>Put it on your SD card</h2>
+      <div class="row">
+        <button id="download-wiiu-zip" class="button primary">Download SD card folder (.zip)</button>
+      </div>
+      <ol class="steps">
+        <li>Unzip it into the root of your SD card, so you end up with <code>wiiu/apps/tcoaal/tcoaal.wuhb</code> and <code>tcoaal.pak</code> next to it.</li>
+        <li>Start it from the Wii U Menu.</li>
+        <li>Saves go into <code>wiiu/apps/tcoaal/saves</code> and are kept when you update.</li>
+      </ol>
+      <p class="hint">Controls: d-pad or left stick to move, A to interact, B to cancel, X or + for the menu, hold Y to run, hold R to fast-forward dialogue.</p>
+    </div>
+    <div data-console="xbox360" hidden>
+      <h2>Put it on a USB drive</h2>
+      <div class="row">
+        <button id="download-xbox360-zip" class="button primary">Download USB drive files (.zip)</button>
+      </div>
+      <ol class="steps">
+        <li>Unzip it into the root of a FAT32 USB drive, so you end up with <code>xenon.elf</code> and <code>tcoaal/tcoaal.pak</code>.</li>
+        <li>Plug the drive into the Xbox 360 and boot XeLL. It loads <code>xenon.elf</code> from the drive and the game starts.</li>
+        <li>Saves go into <code>tcoaal/saves</code> on the drive and are kept when you update.</li>
+      </ol>
+      <p class="hint">Controls: d-pad or left stick to move, A to interact, B to cancel, Y or start for the menu, hold X to run, hold RB or RT to fast-forward dialogue.</p>
+    </div>
+    <div data-console="3ds" hidden>
+      <h2>Play it</h2>
+      <div class="row">
+        <button id="download-3ds-app" class="button primary">Download tcoaal.3dsx</button>
+        <button id="download-3ds-zip" class="button">Download SD card folder (.zip)</button>
+      </div>
+      <ol class="steps">
+        <li>In Azahar, open File, then Load File, and pick <code>tcoaal.3dsx</code>.</li>
+        <li>On a 3DS, unzip the SD card folder into the root of your SD card, so you end up with <code>3ds/tcoaal/tcoaal.3dsx</code>, then start it from the Homebrew Launcher.</li>
+        <li>Sound needs <code>3ds/dspfirm.cdc</code> on the SD card, which DSP1 creates during the usual custom firmware setup. Saves go into <code>3ds/tcoaal/saves</code> and are kept when you update.</li>
+      </ol>
+      <p class="hint">Controls: d-pad or Circle Pad to move, A to interact, B to cancel, X for the menu, Y to run, R to fast-forward dialogue. The touchscreen has buttons to toggle running and fast-forward, open the menu and save.</p>
+    </div>
+    <div data-console="ps2" hidden>
+      <h2>Play it on your PS2</h2>
+      <div class="row">
+        <button id="download-ps2-iso" class="button primary">Download TCOAAL.iso</button>
+        <button id="download-ps2-usb" class="button">Download USB folder (.zip)</button>
+      </div>
+      <ol class="steps">
+        <li>Open PS2 Loader: put <code>TCOAAL.iso</code> in the <code>DVD</code> folder of your USB drive, hard drive or network share, then start it from the game list.</li>
+        <li>PCSX2: open <code>TCOAAL.iso</code> with File, then Start File.</li>
+        <li>uLaunchELF: unzip the USB folder onto your USB drive and start <code>TCOAAL.ELF</code>. Keep <code>TCOAAL.PAK</code> next to it.</li>
+        <li>Saves go to the memory card in slot 1, in a folder called TCOAAL, or slot 2 if slot 1 is empty.</li>
+      </ol>
+      <p class="hint">Controls: d-pad to move, cross to interact, circle to cancel, triangle for the menu, hold square to run, hold R1 to fast-forward dialogue.</p>
+    </div>
+    <div data-console="ps3" hidden>
+      <h2>Install it on your PS3</h2>
+      <div class="row">
+        <button id="download-ps3-pkg" class="button primary">Download TCOAAL.pkg</button>
+      </div>
+      <ol class="steps">
+        <li>Real PS3: copy <code>TCOAAL.pkg</code> to the root of a USB drive, then install it with Package Manager, Install Package Files. The game shows up under Game on the XMB.</li>
+        <li>RPCS3: install <code>TCOAAL.pkg</code> with File, Install Packages, then start it from the game list.</li>
+        <li>Saves are kept on the hard drive with the game and stay when you update.</li>
+      </ol>
+      <p class="hint">Controls: d-pad to move, cross to interact, circle to cancel, triangle or start for the menu, hold square to run, hold R1 or R2 to fast-forward dialogue.</p>
+    </div>
+  </section>
+
+  <section class="card" id="step-cia" hidden>
+    <h2>Put it on the HOME menu (optional)</h2>
+    <p class="hint">Turn your build into <code>tcoaal.cia</code>, which installs like a regular game, with its own icon on the HOME menu. This takes a few seconds and doesn't touch your game files again.</p>
+    <button id="make-cia" class="button primary">Make tcoaal.cia</button>
+    <div id="cia-status" class="status" hidden>
+      <div class="bar"><div id="cia-bar"></div></div>
+      <p id="cia-text"></p>
+    </div>
+    <p id="cia-error" class="error" hidden></p>
+    <ol class="steps">
+      <li>On a 3DS, copy <code>tcoaal.cia</code> to the SD card, install it with FBI, then delete the .cia. The game shows up on the HOME menu.</li>
+      <li>In Azahar, open File, then Install CIA, and pick <code>tcoaal.cia</code>. The game shows up in the game list.</li>
+      <li>The installed game and <code>tcoaal.3dsx</code> share the same saves in <code>3ds/tcoaal/saves</code>.</li>
+    </ol>
+  </section>
+
+
+  <footer>
+    <div>
+      <p class="credit">Made by kotwicha. The code is on <a href="https://github.com/meetox80/tcoaal" target="_blank" rel="noopener">GitHub</a>.</p>
+      <p>An unofficial, non-commercial fan port with an engine written from scratch. The Coffin of Andy and Leyley is made by Nemlei and published by Kit9 Studio; this project is not affiliated with them. No game files are hosted here; the page only reads the copy you give it.</p>
+    </div>
+  </footer>
+</main>
+
+<dialog id="crack">
+  <h2>Please buy the game</h2>
+  <p>This copy of The Coffin of Andy and Leyley looks cracked.</p>
+  <p class="hint" id="crack-reason"></p>
+  <p>You need to buy the game to use this port. Kit9 Studio and Nemlei made it, and buying it on Steam is what lets them keep making games.</p>
+  <div class="row">
+    <a class="button primary" href="https://store.steampowered.com/app/2378900/" target="_blank" rel="noopener" id="crack-buy">Buy on Steam</a>
+    <button class="button" id="crack-quit">Quit</button>
+  </div>
+  <button class="button subtle wide" id="crack-continue" disabled></button>
+</dialog>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

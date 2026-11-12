@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+<defs><filter id="crayon" x="-3%" y="-6%" width="106%" height="112%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.2" xChannelSelector="R" yChannelSelector="G"/></filter><filter id="wobble" x="-3%" y="-6%" width="106%" height="112%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.6" xChannelSelector="R" yChannelSelector="G"/></filter></defs>
+<g filter="url(#crayon)">
+<path d="M84 168 Q84 120 134 118 L384 118 Q424 118 434 168 Z" style="fill:#d0b088;stroke:#d0b088;stroke-width:44;stroke-linejoin:round"/>
+<path d="M1516 168 Q1516 120 1466 118 L1216 118 Q1176 118 1166 168 Z" style="fill:#d0b088;stroke:#d0b088;stroke-width:44;stroke-linejoin:round"/>
+<rect x="40" y="150" width="1520" height="610" rx="130" style="fill:#d0b088;stroke:#d0b088;stroke-width:44;stroke-linejoin:round"/>
+</g>
+<g filter="url(#wobble)">
+<path d="M84 168 Q84 120 134 118 L384 118 Q424 118 434 168 Z" style="fill:#685848;stroke:#a08870;stroke-width:8;stroke-linejoin:round"/>
+<path d="M1516 168 Q1516 120 1466 118 L1216 118 Q1176 118 1166 168 Z" style="fill:#cfa2e9;stroke:#7c618b;stroke-width:10;stroke-linejoin:round"/>
+<rect x="40" y="150" width="1520" height="610" rx="130" style="fill:#787060;stroke:#787060;stroke-width:2"/>
+<rect x="400" y="225" width="800" height="450" rx="14" style="fill:#4c3e36;stroke:#a08870;stroke-width:14"/>
+<circle cx="800" cy="190" r="12" style="fill:#4c3e36;stroke:#a08870;stroke-width:4"/>
+<circle cx="230" cy="300" r="108" style="fill:#685848;stroke:#a08870;stroke-width:8"/>
+<circle cx="230" cy="300" r="72" style="fill:#80c8e8;stroke:#28709a;stroke-width:8"/>
+<circle cx="230" cy="300" r="46" style="fill:none;stroke:#5aa8cc;stroke-width:5"/>
+<path d="M200 462 H260 V510 H308 V570 H260 V618 H200 V570 H152 V510 H200 Z" style="fill:#80c8e8;stroke:#28709a;stroke-width:8;stroke-linejoin:round"/>
+<path d="M230 476 L244 496 H216 Z M230 604 L244 584 H216 Z M166 540 L186 526 V554 Z M294 540 L274 526 V554 Z" style="fill:#28709a;stroke:#28709a;stroke-width:3;stroke-linejoin:round"/>
+<circle cx="1370" cy="300" r="108" style="fill:#685848;stroke:#a08870;stroke-width:8"/>
+<circle cx="1370" cy="300" r="72" style="fill:#4c3e36;stroke:#5a4a3e;stroke-width:6"/>
+<circle cx="1370" cy="300" r="46" style="fill:none;stroke:#5e4e42;stroke-width:5"/>
+<circle cx="1370" cy="450" r="46" style="fill:#6e483e;stroke:#f6a18b;stroke-width:12"/>
+<path d="M1354 428 L1386 472 M1386 428 L1354 472" style="fill:none;stroke:#f6a18b;stroke-width:7;stroke-linecap:round"/>
+<circle cx="1280" cy="540" r="46" style="fill:#605a0c;stroke:#d7ca1b;stroke-width:12"/>
+<path d="M1262 520 L1280 540 L1298 520 M1280 540 V562" style="fill:none;stroke:#d7ca1b;stroke-width:7;stroke-linecap:round;stroke-linejoin:round"/>
+<circle cx="1460" cy="540" r="46" style="fill:#46602c;stroke:#9dd762;stroke-width:12"/>
+<path d="M1441 562 L1460 518 L1479 562 M1449 548 H1471" style="fill:none;stroke:#9dd762;stroke-width:7;stroke-linecap:round;stroke-linejoin:round"/>
+<circle cx="1370" cy="630" r="46" style="fill:#6e483e;stroke:#f6a18b;stroke-width:12"/>
+<path d="M1356 608 V652 H1374 Q1390 652 1390 641 Q1390 630 1374 630 H1356 M1356 608 H1372 Q1386 608 1386 619 Q1386 630 1372 630" style="fill:none;stroke:#f6a18b;stroke-width:7;stroke-linecap:round;stroke-linejoin:round"/>
+<circle cx="1440" cy="712" r="22" style="fill:#685848;stroke:#a08870;stroke-width:5"/>
+<path d="M1428 712 H1452 M1440 700 V724" style="fill:none;stroke:#a08870;stroke-width:5;stroke-linecap:round"/>
+<circle cx="1300" cy="712" r="22" style="fill:#685848;stroke:#a08870;stroke-width:5"/>
+<path d="M1288 712 H1312" style="fill:none;stroke:#a08870;stroke-width:5;stroke-linecap:round"/>
+<circle cx="700" cy="716" r="20" style="fill:#685848;stroke:#a08870;stroke-width:5"/>
+<circle cx="800" cy="716" r="24" style="fill:#685848;stroke:#a08870;stroke-width:5"/>
+<circle cx="900" cy="716" r="20" style="fill:#685848;stroke:#a08870;stroke-width:5"/>
+</g>
+</svg>

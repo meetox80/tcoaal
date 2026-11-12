@@ -1,0 +1,384 @@
+#pragma once
+#include <cstddef>
+#include <cstring>
+#include <initializer_list>
+#include <new>
+#include <type_traits>
+#include <utility>
+
+namespace std {
+
+class string {
+public:
+    using value_type = char;
+    using size_type = size_t;
+    using difference_type = ptrdiff_t;
+    using reference = char&;
+    using const_reference = const char&;
+    using iterator = char*;
+    using const_iterator = const char*;
+    static constexpr size_type npos = static_cast<size_type>(-1);
+
+    string() noexcept { reset(); }
+    string(const char* s) { init(s, std::strlen(s)); }
+    string(const char* s, size_type n) { init(s, n); }
+    string(size_type n, char c) {
+        reset();
+        append(n, c);
+    }
+    string(const string& o) { init(o.p_, o.n_); }
+    string(const string& o, size_type pos, size_type n = npos) { init(o.p_ + clip(o, pos), span(o, pos, n)); }
+    string(string&& o) noexcept { steal(o); }
+    string(initializer_list<char> l) { init(l.begin(), l.size()); }
+    template <class It, class = typename enable_if<!is_integral<It>::value>::type>
+    string(It first, It last) {
+        reset();
+        for (; first != last; ++first) push_back(*first);
+    }
+    ~string() { release(); }
+
+    string& operator=(const string& o) { return this == &o ? *this : assign(o.p_, o.n_); }
+    string& operator=(string&& o) noexcept {
+        if (this != &o) {
+            release();
+            steal(o);
+        }
+        return *this;
+    }
+    string& operator=(const char* s) { return assign(s, std::strlen(s)); }
+    string& operator=(char c) { return assign(1, c); }
+
+    size_type size() const noexcept { return n_; }
+    size_type length() const noexcept { return n_; }
+    size_type capacity() const noexcept { return cap_; }
+    bool empty() const noexcept { return n_ == 0; }
+    const char* c_str() const noexcept { return p_; }
+    const char* data() const noexcept { return p_; }
+    char* data() noexcept { return p_; }
+    char& operator[](size_type i) noexcept { return p_[i]; }
+    const char& operator[](size_type i) const noexcept { return p_[i]; }
+    char& at(size_type i) noexcept { return p_[i]; }
+    const char& at(size_type i) const noexcept { return p_[i]; }
+    char& front() noexcept { return p_[0]; }
+    const char& front() const noexcept { return p_[0]; }
+    char& back() noexcept { return p_[n_ - 1]; }
+    const char& back() const noexcept { return p_[n_ - 1]; }
+    iterator begin() noexcept { return p_; }
+    iterator end() noexcept { return p_ + n_; }
+    const_iterator begin() const noexcept { return p_; }
+    const_iterator end() const noexcept { return p_ + n_; }
+    const_iterator cbegin() const noexcept { return p_; }
+    const_iterator cend() const noexcept { return p_ + n_; }
+
+    void reserve(size_type n) {
+        if (n > cap_) regrow(n);
+    }
+    void resize(size_type n, char c = '\0') {
+        if (n > n_) append(n - n_, c);
+        else set_size(n);
+    }
+    void clear() noexcept { set_size(0); }
+    void shrink_to_fit() {}
+    void push_back(char c) {
+        if (n_ == cap_) regrow(grown(n_ + 1));
+        p_[n_] = c;
+        set_size(n_ + 1);
+    }
+    void pop_back() noexcept { set_size(n_ - 1); }
+
+    string& append(const char* s, size_type n) {
+        if (!n) return *this;
+        if (n_ + n > cap_) {
+            size_type off = owns(s) ? static_cast<size_type>(s - p_) : npos;
+            regrow(grown(n_ + n));
+            if (off != npos) s = p_ + off;
+        }
+        std::memmove(p_ + n_, s, n);
+        set_size(n_ + n);
+        return *this;
+    }
+    string& append(const char* s) { return append(s, std::strlen(s)); }
+    string& append(const string& s) { return append(s.p_, s.n_); }
+    string& append(const string& s, size_type pos, size_type n = npos) { return append(s.p_ + clip(s, pos), span(s, pos, n)); }
+    string& append(size_type n, char c) {
+        if (n_ + n > cap_) regrow(grown(n_ + n));
+        std::memset(p_ + n_, c, n);
+        set_size(n_ + n);
+        return *this;
+    }
+    template <class It, class = typename enable_if<!is_integral<It>::value>::type>
+    string& append(It first, It last) {
+        for (; first != last; ++first) push_back(*first);
+        return *this;
+    }
+    string& operator+=(const string& s) { return append(s); }
+    string& operator+=(const char* s) { return append(s); }
+    string& operator+=(char c) {
+        push_back(c);
+        return *this;
+    }
+
+    string& assign(const char* s, size_type n) {
+        if (n > cap_) {
+            char* q = allocate(n);
+            std::memcpy(q, s, n);
+            release();
+            p_ = q;
+            cap_ = n;
+        } else {
+            std::memmove(p_, s, n);
+        }
+        set_size(n);
+        return *this;
+    }
+    string& assign(const char* s) { return assign(s, std::strlen(s)); }
+    string& assign(const string& s) { return this == &s ? *this : assign(s.p_, s.n_); }
+    string& assign(const string& s, size_type pos, size_type n = npos) {
+        string t(s, pos, n);
+        return *this = std::move(t);
+    }
+    string& assign(size_type n, char c) {
+        clear();
+        return append(n, c);
+    }
+    template <class It, class = typename enable_if<!is_integral<It>::value>::type>
+    string& assign(It first, It last) {
+        string t(first, last);
+        return *this = std::move(t);
+    }
+
+    string& insert(size_type pos, const char* s, size_type n) {
+        if (pos > n_) pos = n_;
+        string t;
+        t.reserve(n_ + n);
+        t.append(p_, pos).append(s, n).append(p_ + pos, n_ - pos);
+        return *this = std::move(t);
+    }
+    string& insert(size_type pos, const char* s) { return insert(pos, s, std::strlen(s)); }
+    string& insert(size_type pos, const string& s) { return insert(pos, s.p_, s.n_); }
+    string& insert(size_type pos, size_type n, char c) {
+        string t(n, c);
+        return insert(pos, t.p_, t.n_);
+    }
+    iterator insert(const_iterator at, char c) {
+        size_type pos = static_cast<size_type>(at - p_);
+        insert(pos, &c, 1);
+        return p_ + pos;
+    }
+
+    string& erase(size_type pos = 0, size_type n = npos) {
+        if (pos >= n_) return *this;
+        if (n > n_ - pos) n = n_ - pos;
+        std::memmove(p_ + pos, p_ + pos + n, n_ - pos - n);
+        set_size(n_ - n);
+        return *this;
+    }
+    iterator erase(const_iterator at) {
+        size_type pos = static_cast<size_type>(at - p_);
+        erase(pos, 1);
+        return p_ + pos;
+    }
+    iterator erase(const_iterator first, const_iterator last) {
+        size_type pos = static_cast<size_type>(first - p_);
+        erase(pos, static_cast<size_type>(last - first));
+        return p_ + pos;
+    }
+
+    string& replace(size_type pos, size_type n, const char* s, size_type sn) {
+        if (pos > n_) pos = n_;
+        if (n > n_ - pos) n = n_ - pos;
+        string t;
+        t.reserve(n_ - n + sn);
+        t.append(p_, pos).append(s, sn).append(p_ + pos + n, n_ - pos - n);
+        return *this = std::move(t);
+    }
+    string& replace(size_type pos, size_type n, const char* s) { return replace(pos, n, s, std::strlen(s)); }
+    string& replace(size_type pos, size_type n, const string& s) { return replace(pos, n, s.p_, s.n_); }
+
+    string substr(size_type pos = 0, size_type n = npos) const { return string(*this, pos, n); }
+
+    size_type find(const char* s, size_type pos, size_type n) const noexcept {
+        if (n == 0) return pos <= n_ ? pos : npos;
+        for (size_type i = pos; i + n <= n_; i++) {
+            if (p_[i] == s[0] && std::memcmp(p_ + i, s, n) == 0) return i;
+        }
+        return npos;
+    }
+    size_type find(const string& s, size_type pos = 0) const noexcept { return find(s.p_, pos, s.n_); }
+    size_type find(const char* s, size_type pos = 0) const noexcept { return find(s, pos, std::strlen(s)); }
+    size_type find(char c, size_type pos = 0) const noexcept {
+        if (pos >= n_) return npos;
+        const void* hit = std::memchr(p_ + pos, c, n_ - pos);
+        return hit ? static_cast<size_type>(static_cast<const char*>(hit) - p_) : npos;
+    }
+
+    size_type rfind(const char* s, size_type pos, size_type n) const noexcept {
+        if (n > n_) return npos;
+        size_type i = n_ - n < pos ? n_ - n : pos;
+        for (;; i--) {
+            if (std::memcmp(p_ + i, s, n) == 0) return i;
+            if (i == 0) return npos;
+        }
+    }
+    size_type rfind(const string& s, size_type pos = npos) const noexcept { return rfind(s.p_, pos, s.n_); }
+    size_type rfind(const char* s, size_type pos = npos) const noexcept { return rfind(s, pos, std::strlen(s)); }
+    size_type rfind(char c, size_type pos = npos) const noexcept { return rfind(&c, pos, 1); }
+
+    size_type find_first_of(const char* s, size_type pos, size_type n) const noexcept {
+        for (size_type i = pos; i < n_; i++) {
+            if (std::memchr(s, p_[i], n)) return i;
+        }
+        return npos;
+    }
+    size_type find_first_of(const string& s, size_type pos = 0) const noexcept { return find_first_of(s.p_, pos, s.n_); }
+    size_type find_first_of(const char* s, size_type pos = 0) const noexcept { return find_first_of(s, pos, std::strlen(s)); }
+    size_type find_first_of(char c, size_type pos = 0) const noexcept { return find(c, pos); }
+
+    size_type find_last_of(const char* s, size_type pos, size_type n) const noexcept {
+        if (!n_) return npos;
+        for (size_type i = pos < n_ ? pos : n_ - 1;; i--) {
+            if (std::memchr(s, p_[i], n)) return i;
+            if (i == 0) return npos;
+        }
+    }
+    size_type find_last_of(const string& s, size_type pos = npos) const noexcept { return find_last_of(s.p_, pos, s.n_); }
+    size_type find_last_of(const char* s, size_type pos = npos) const noexcept { return find_last_of(s, pos, std::strlen(s)); }
+    size_type find_last_of(char c, size_type pos = npos) const noexcept { return rfind(c, pos); }
+
+    size_type find_first_not_of(const char* s, size_type pos, size_type n) const noexcept {
+        for (size_type i = pos; i < n_; i++) {
+            if (!std::memchr(s, p_[i], n)) return i;
+        }
+        return npos;
+    }
+    size_type find_first_not_of(const string& s, size_type pos = 0) const noexcept { return find_first_not_of(s.p_, pos, s.n_); }
+    size_type find_first_not_of(const char* s, size_type pos = 0) const noexcept { return find_first_not_of(s, pos, std::strlen(s)); }
+    size_type find_first_not_of(char c, size_type pos = 0) const noexcept { return find_first_not_of(&c, pos, 1); }
+
+    size_type find_last_not_of(const char* s, size_type pos, size_type n) const noexcept {
+        if (!n_) return npos;
+        for (size_type i = pos < n_ ? pos : n_ - 1;; i--) {
+            if (!std::memchr(s, p_[i], n)) return i;
+            if (i == 0) return npos;
+        }
+    }
+    size_type find_last_not_of(const string& s, size_type pos = npos) const noexcept { return find_last_not_of(s.p_, pos, s.n_); }
+    size_type find_last_not_of(const char* s, size_type pos = npos) const noexcept { return find_last_not_of(s, pos, std::strlen(s)); }
+    size_type find_last_not_of(char c, size_type pos = npos) const noexcept { return find_last_not_of(&c, pos, 1); }
+
+    int compare(const char* s, size_type n) const noexcept { return compare(0, n_, s, n); }
+    int compare(const string& s) const noexcept { return compare(0, n_, s.p_, s.n_); }
+    int compare(const char* s) const noexcept { return compare(0, n_, s, std::strlen(s)); }
+    int compare(size_type pos, size_type n, const string& s) const noexcept { return compare(pos, n, s.p_, s.n_); }
+    int compare(size_type pos, size_type n, const char* s) const noexcept { return compare(pos, n, s, std::strlen(s)); }
+    int compare(size_type pos, size_type n, const char* s, size_type sn) const noexcept {
+        if (pos > n_) pos = n_;
+        if (n > n_ - pos) n = n_ - pos;
+        int r = std::memcmp(p_ + pos, s, n < sn ? n : sn);
+        return r ? r : n < sn ? -1 : n > sn ? 1 : 0;
+    }
+
+    void swap(string& o) noexcept {
+        string t(std::move(o));
+        o = std::move(*this);
+        *this = std::move(t);
+    }
+
+private:
+    static constexpr size_type SSO = 11;
+    char* p_;
+    size_type n_;
+    size_type cap_;
+    char buf_[SSO + 1];
+
+    static size_type clip(const string& s, size_type pos) noexcept { return pos < s.n_ ? pos : s.n_; }
+    static size_type span(const string& s, size_type pos, size_type n) noexcept {
+        size_type at = clip(s, pos);
+        return n < s.n_ - at ? n : s.n_ - at;
+    }
+    static char* allocate(size_type cap) { return static_cast<char*>(::operator new(cap + 1)); }
+    static size_type grown(size_type need) noexcept { return need < 32 ? 32 : need + need / 2; }
+    bool local() const noexcept { return p_ == buf_; }
+    bool owns(const char* s) const noexcept { return s >= p_ && s < p_ + n_; }
+    void set_size(size_type n) noexcept {
+        n_ = n;
+        p_[n] = '\0';
+    }
+    void reset() noexcept {
+        p_ = buf_;
+        n_ = 0;
+        cap_ = SSO;
+        buf_[0] = '\0';
+    }
+    void init(const char* s, size_type n) {
+        reset();
+        if (n > SSO) {
+            p_ = allocate(n);
+            cap_ = n;
+        }
+        std::memcpy(p_, s, n);
+        set_size(n);
+    }
+    void release() noexcept {
+        if (!local()) ::operator delete(p_);
+    }
+    void steal(string& o) noexcept {
+        if (o.local()) {
+            p_ = buf_;
+            cap_ = SSO;
+            std::memcpy(buf_, o.buf_, o.n_ + 1);
+        } else {
+            p_ = o.p_;
+            cap_ = o.cap_;
+        }
+        n_ = o.n_;
+        o.reset();
+    }
+    void regrow(size_type cap) {
+        char* q = allocate(cap);
+        std::memcpy(q, p_, n_ + 1);
+        release();
+        p_ = q;
+        cap_ = cap;
+    }
+};
+
+inline string operator+(const string& a, const string& b) {
+    string r;
+    r.reserve(a.size() + b.size());
+    return r.append(a).append(b);
+}
+inline string operator+(string&& a, const string& b) { return std::move(a.append(b)); }
+inline string operator+(string&& a, string&& b) { return std::move(a.append(b)); }
+inline string operator+(const string& a, string&& b) { return std::move(b.insert(0, a)); }
+inline string operator+(const string& a, const char* b) { return string(a).append(b); }
+inline string operator+(string&& a, const char* b) { return std::move(a.append(b)); }
+inline string operator+(const char* a, const string& b) { return string(a).append(b); }
+inline string operator+(const char* a, string&& b) { return std::move(b.insert(0, a)); }
+inline string operator+(const string& a, char b) { return string(a) += b; }
+inline string operator+(string&& a, char b) { return std::move(a += b); }
+inline string operator+(char a, const string& b) { return string(1, a).append(b); }
+
+inline bool operator==(const string& a, const string& b) noexcept { return a.size() == b.size() && std::memcmp(a.data(), b.data(), a.size()) == 0; }
+inline bool operator==(const string& a, const char* b) noexcept { return a.compare(b) == 0; }
+inline bool operator==(const char* a, const string& b) noexcept { return b.compare(a) == 0; }
+inline bool operator!=(const string& a, const string& b) noexcept { return !(a == b); }
+inline bool operator!=(const string& a, const char* b) noexcept { return !(a == b); }
+inline bool operator!=(const char* a, const string& b) noexcept { return !(b == a); }
+inline bool operator<(const string& a, const string& b) noexcept { return a.compare(b) < 0; }
+inline bool operator>(const string& a, const string& b) noexcept { return a.compare(b) > 0; }
+inline bool operator<=(const string& a, const string& b) noexcept { return a.compare(b) <= 0; }
+inline bool operator>=(const string& a, const string& b) noexcept { return a.compare(b) >= 0; }
+
+inline void swap(string& a, string& b) noexcept { a.swap(b); }
+
+string to_string(long long v);
+string to_string(unsigned long long v);
+string to_string(double v);
+inline string to_string(int v) { return to_string(static_cast<long long>(v)); }
+inline string to_string(long v) { return to_string(static_cast<long long>(v)); }
+inline string to_string(unsigned v) { return to_string(static_cast<unsigned long long>(v)); }
+inline string to_string(unsigned long v) { return to_string(static_cast<unsigned long long>(v)); }
+inline string to_string(float v) { return to_string(static_cast<double>(v)); }
+
+}

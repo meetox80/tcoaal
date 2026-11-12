@@ -1,0 +1,249 @@
+#pragma once
+#include <cstddef>
+#include <initializer_list>
+#include <utility>
+
+namespace std {
+
+template <class T>
+constexpr const T& min(const T& a, const T& b) {
+    return b < a ? b : a;
+}
+
+template <class T>
+constexpr const T& max(const T& a, const T& b) {
+    return a < b ? b : a;
+}
+
+template <class T, class C>
+constexpr const T& min(const T& a, const T& b, C c) {
+    return c(b, a) ? b : a;
+}
+
+template <class T, class C>
+constexpr const T& max(const T& a, const T& b, C c) {
+    return c(a, b) ? b : a;
+}
+
+template <class T>
+constexpr T min(initializer_list<T> l) {
+    const T* m = l.begin();
+    for (const T* p = l.begin(); p != l.end(); ++p) {
+        if (*p < *m) m = p;
+    }
+    return *m;
+}
+
+template <class T>
+constexpr T max(initializer_list<T> l) {
+    const T* m = l.begin();
+    for (const T* p = l.begin(); p != l.end(); ++p) {
+        if (*m < *p) m = p;
+    }
+    return *m;
+}
+
+template <class T>
+constexpr const T& clamp(const T& v, const T& lo, const T& hi) {
+    return v < lo ? lo : hi < v ? hi : v;
+}
+
+template <class It, class T>
+It find(It first, It last, const T& v) {
+    while (first != last && !(*first == v)) ++first;
+    return first;
+}
+
+template <class It, class P>
+It find_if(It first, It last, P p) {
+    while (first != last && !p(*first)) ++first;
+    return first;
+}
+
+template <class It, class P>
+It find_if_not(It first, It last, P p) {
+    while (first != last && p(*first)) ++first;
+    return first;
+}
+
+template <class It, class P>
+bool any_of(It first, It last, P p) {
+    return find_if(first, last, p) != last;
+}
+
+template <class It, class P>
+bool all_of(It first, It last, P p) {
+    return find_if_not(first, last, p) == last;
+}
+
+template <class It, class P>
+bool none_of(It first, It last, P p) {
+    return find_if(first, last, p) == last;
+}
+
+template <class It, class T>
+size_t count(It first, It last, const T& v) {
+    size_t n = 0;
+    for (; first != last; ++first) n += *first == v;
+    return n;
+}
+
+template <class It, class P>
+It remove_if(It first, It last, P p) {
+    first = find_if(first, last, p);
+    if (first == last) return first;
+    for (It i = first; ++i != last;) {
+        if (!p(*i)) *first++ = std::move(*i);
+    }
+    return first;
+}
+
+template <class It, class T>
+It remove(It first, It last, const T& v) {
+    return remove_if(first, last, [&v](const auto& x) { return x == v; });
+}
+
+template <class It, class T>
+void fill(It first, It last, const T& v) {
+    for (; first != last; ++first) *first = v;
+}
+
+template <class In, class Out>
+Out copy(In first, In last, Out out) {
+    for (; first != last; ++first, ++out) *out = *first;
+    return out;
+}
+
+template <class It>
+void reverse(It first, It last) {
+    while (first != last && first != --last) std::swap(*first++, *last);
+}
+
+template <class It, class C>
+It max_element(It first, It last, C c) {
+    It m = first;
+    for (; first != last; ++first) {
+        if (c(*m, *first)) m = first;
+    }
+    return m;
+}
+
+template <class It>
+It max_element(It first, It last) {
+    return max_element(first, last, less<>());
+}
+
+template <class It, class C>
+It min_element(It first, It last, C c) {
+    It m = first;
+    for (; first != last; ++first) {
+        if (c(*first, *m)) m = first;
+    }
+    return m;
+}
+
+template <class It>
+It min_element(It first, It last) {
+    return min_element(first, last, less<>());
+}
+
+template <class It, class T, class C>
+It lower_bound(It first, It last, const T& v, C c) {
+    ptrdiff_t n = last - first;
+    while (n > 0) {
+        ptrdiff_t half = n / 2;
+        It mid = first + half;
+        if (c(*mid, v)) {
+            first = mid + 1;
+            n -= half + 1;
+        } else {
+            n = half;
+        }
+    }
+    return first;
+}
+
+template <class It, class T>
+It lower_bound(It first, It last, const T& v) {
+    return lower_bound(first, last, v, less<>());
+}
+
+template <class It, class T, class C>
+It upper_bound(It first, It last, const T& v, C c) {
+    ptrdiff_t n = last - first;
+    while (n > 0) {
+        ptrdiff_t half = n / 2;
+        It mid = first + half;
+        if (!c(v, *mid)) {
+            first = mid + 1;
+            n -= half + 1;
+        } else {
+            n = half;
+        }
+    }
+    return first;
+}
+
+template <class It, class T>
+It upper_bound(It first, It last, const T& v) {
+    return upper_bound(first, last, v, less<>());
+}
+
+template <class It, class C>
+void stable_sort(It first, It last, C c) {
+    if (first == last) return;
+    for (It i = first + 1; i != last; ++i) {
+        if (!c(*i, *(i - 1))) continue;
+        auto v = std::move(*i);
+        It j = i;
+        do {
+            *j = std::move(*(j - 1));
+            --j;
+        } while (j != first && c(v, *(j - 1)));
+        *j = std::move(v);
+    }
+}
+
+template <class It>
+void stable_sort(It first, It last) {
+    stable_sort(first, last, less<>());
+}
+
+template <class It, class C>
+void sort(It first, It last, C c) {
+    while (last - first > 16) {
+        It mid = first + (last - first) / 2;
+        It back = last - 1;
+        if (c(*mid, *first)) std::swap(*mid, *first);
+        if (c(*back, *mid)) {
+            std::swap(*back, *mid);
+            if (c(*mid, *first)) std::swap(*mid, *first);
+        }
+        std::swap(*first, *mid);
+        It i = first + 1, j = back;
+        for (;;) {
+            while (c(*i, *first)) ++i;
+            while (c(*first, *j)) --j;
+            if (!(i < j)) break;
+            std::swap(*i, *j);
+            ++i;
+            --j;
+        }
+        std::swap(*first, *j);
+        if (j - first < last - j) {
+            sort(first, j, c);
+            first = j + 1;
+        } else {
+            sort(j + 1, last, c);
+            last = j;
+        }
+    }
+    stable_sort(first, last, c);
+}
+
+template <class It>
+void sort(It first, It last) {
+    sort(first, last, less<>());
+}
+
+}

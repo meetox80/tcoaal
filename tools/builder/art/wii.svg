@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+<defs><filter id="crayon" x="-3%" y="-6%" width="106%" height="112%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.2" xChannelSelector="R" yChannelSelector="G"/></filter><filter id="wobble" x="-3%" y="-6%" width="106%" height="112%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.6" xChannelSelector="R" yChannelSelector="G"/></filter></defs>
+<g filter="url(#crayon)">
+<path d="M480 290 Q480 186 540 182 L600 182 Q660 186 660 290 Z" style="fill:#d0b088;stroke:#d0b088;stroke-width:44;stroke-linejoin:round"/>
+<rect x="60" y="270" width="1480" height="360" rx="120" style="fill:#d0b088;stroke:#d0b088;stroke-width:44;stroke-linejoin:round"/>
+</g>
+<g filter="url(#wobble)">
+<path d="M480 290 Q480 186 540 182 L600 182 Q660 186 660 290 Z" style="fill:#605a0c;stroke:#d7ca1b;stroke-width:10;stroke-linejoin:round"/>
+<path d="M556 200 V240 H574 Q588 240 588 230 Q588 220 574 220 H556 M556 200 H572 Q584 200 584 210 Q584 220 572 220" style="fill:none;stroke:#d7ca1b;stroke-width:7;stroke-linecap:round;stroke-linejoin:round"/>
+<rect x="60" y="270" width="1480" height="360" rx="120" style="fill:#787060;stroke:#787060;stroke-width:2"/>
+<circle cx="140" cy="450" r="26" style="fill:#685848;stroke:#a08870;stroke-width:5"/>
+<path d="M131 438 A15 15 0 1 0 149 438 M140 432 V448" style="fill:none;stroke:#e04a3a;stroke-width:5;stroke-linecap:round"/>
+<path d="M270 370 H330 V420 H380 V480 H330 V530 H270 V480 H220 V420 H270 Z" style="fill:#80c8e8;stroke:#28709a;stroke-width:8;stroke-linejoin:round"/>
+<path d="M300 384 L314 404 H286 Z M300 516 L314 496 H286 Z M234 450 L254 436 V464 Z M366 450 L346 436 V464 Z" style="fill:#28709a;stroke:#28709a;stroke-width:3;stroke-linejoin:round"/>
+<circle cx="300" cy="450" r="14" style="fill:#5aa8cc;stroke:none"/>
+<circle cx="570" cy="450" r="64" style="fill:#4a3858;stroke:#cfa2e9;stroke-width:12"/>
+<path d="M549 474 L570 426 L591 474 M558 459 H582" style="fill:none;stroke:#cfa2e9;stroke-width:8;stroke-linecap:round;stroke-linejoin:round"/>
+<circle cx="800" cy="365" r="26" style="fill:#6e483e;stroke:#f6a18b;stroke-width:7"/>
+<path d="M788 365 H812 M800 353 V377" style="fill:none;stroke:#f6a18b;stroke-width:5;stroke-linecap:round"/>
+<circle cx="800" cy="450" r="30" style="fill:#685848;stroke:#a08870;stroke-width:5"/>
+<path d="M786 452 L800 438 L814 452 M790 448 V464 H810 V448" style="fill:none;stroke:#a08870;stroke-width:4;stroke-linecap:round;stroke-linejoin:round"/>
+<circle cx="800" cy="535" r="26" style="fill:#685848;stroke:#a08870;stroke-width:5"/>
+<path d="M788 535 H812" style="fill:none;stroke:#a08870;stroke-width:5;stroke-linecap:round"/>
+<circle cx="935" cy="420" r="7" style="fill:#5a4a3e;stroke:none"/>
+<circle cx="965" cy="420" r="7" style="fill:#5a4a3e;stroke:none"/>
+<circle cx="950" cy="450" r="7" style="fill:#5a4a3e;stroke:none"/>
+<circle cx="935" cy="480" r="7" style="fill:#5a4a3e;stroke:none"/>
+<circle cx="965" cy="480" r="7" style="fill:#5a4a3e;stroke:none"/>
+<circle cx="1120" cy="450" r="48" style="fill:#6e483e;stroke:#f6a18b;stroke-width:12"/>
+<path d="M1110 434 L1124 424 V476 M1110 476 H1138" style="fill:none;stroke:#f6a18b;stroke-width:7;stroke-linecap:round;stroke-linejoin:round"/>
+<circle cx="1260" cy="450" r="48" style="fill:#46602c;stroke:#9dd762;stroke-width:12"/>
+<path d="M1244 436 Q1246 424 1260 424 Q1276 424 1276 438 Q1276 450 1244 476 H1278" style="fill:none;stroke:#9dd762;stroke-width:7;stroke-linecap:round;stroke-linejoin:round"/>
+<rect x="1450" y="378" width="14" height="24" rx="4" style="fill:#d0b088;stroke:#a08870;stroke-width:3"/>
+<rect x="1450" y="416" width="14" height="24" rx="4" style="fill:#4c3e36;stroke:#a08870;stroke-width:3"/>
+<rect x="1450" y="454" width="14" height="24" rx="4" style="fill:#4c3e36;stroke:#a08870;stroke-width:3"/>
+<rect x="1450" y="492" width="14" height="24" rx="4" style="fill:#4c3e36;stroke:#a08870;stroke-width:3"/>
+</g>
+</svg>
